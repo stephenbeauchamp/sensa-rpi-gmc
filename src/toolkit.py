@@ -2,6 +2,7 @@ import datetime
 import json
 import serial
 import sys
+import os
 
 class Tk:
 
@@ -11,7 +12,10 @@ class Tk:
 
     __config = None
 
-    with open('./config/config.json') as config_file:
+    __this_path = os.path.dirname(os.path.realpath(__file__))
+
+    print(__this_path)
+    with open( os.path.join( __this_path, '../config/config.json' ) ) as config_file:
         __config = json.load( config_file )
 
     #// TODO: ALSO READ /ect/sensaweb/node_id AND ADD NODE_ID __config
