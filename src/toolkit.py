@@ -10,21 +10,34 @@ class Tk:
     #// CONFIG
     #//
 
-    __config = None
-
     __this_path = os.path.dirname(os.path.realpath(__file__))
-
-    print(__this_path)
+    __key_sensa_node_id = 'SENSA_NODE_ID'
+    __sensa_node_id_ect_path = '/var/sensaweb/node_id'
+    __config = None
+    
     with open( os.path.join( __this_path, '../config/config.json' ) ) as config_file:
         __config = json.load( config_file )
 
-    #// TODO: ALSO READ /ect/sensaweb/node_id AND ADD NODE_ID __config
+    if not __key_sensa_node_id in __config:
+        #// TODO: ALSO READ /ect/sensaweb/node_id AND ADD NODE_ID __config JSON
+        #// __sensa_node_id_ect_path
+    `   __config[__key_sensa_node_id] = '5AF37BCB'
 
     @staticmethod
     def get_config( key, default_value ):
         if key in Tk.__config:
              return Tk.__config[ key ]
         return default_value
+
+    #//
+    #// PATH SETUP ON RASPBERRY PI
+    #//
+
+    def get_path_tmpfs( relative_path='' ):
+        return os.path.join( Tk.get_config( 'PATH_TMPFS', '/var/sensaweb-tmpfs' ), relative_path)
+
+    def get_path_archive( relative_path='' ):
+        return os.path.join( Tk.get_config( 'PATH_ARCHIVE', '/opt/sensaweb' ), relative_path)
 
     #//
     #// LOGGING
